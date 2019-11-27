@@ -57,7 +57,7 @@ class RegisterForm(Form):
     hostphone  = StringField('Host Contact', [validators.Length(10)])
     hostemail  = StringField('Host Email', [validators.Length(min=6, max=100)])
     checkin    = StringField('Check In Time', [validators.Length(8)])
-    checkout    = StringField('Check Out Time', [validators.Length(8)])
+    checkout   = StringField('Check Out Time', [validators.Length(8)])
 
 
 

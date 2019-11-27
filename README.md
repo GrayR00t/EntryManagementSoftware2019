@@ -86,7 +86,7 @@ root@kali:~/Documents/EntryManagementProject2019/flaskapp# python3 app.py
 - Host Details screenshot
 ![](/screenshots/HostDetails.jpeg)
 
-- For live demonstration of work flow "https://drive.google.com/file/d/1R3cBxbJZEPBDzM2EvAt8E5OMMDTYSJQj/view?usp=sharing"
+- Watch video for live demonstration of work flow "https://drive.google.com/file/d/1R3cBxbJZEPBDzM2EvAt8E5OMMDTYSJQj/view?usp=sharing"
 
 
 ## Credits
