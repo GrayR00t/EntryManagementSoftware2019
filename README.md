@@ -81,10 +81,10 @@ root@kali:~/Documents/EntryManagementProject2019/flaskapp# python3 app.py
 ![Checkout Page](/screenshots/CheckoutPage.png)
 
 - Visitor Details screenshot
-![](/screenshots/VisitoDetails.jpeg)
+![](/screenshots/VisitorDetails.jpeg)
 
 - Host Details screenshot
-![](/screenshots/VisitoDetails.jpeg)
+![](/screenshots/HostDetails.jpeg)
 
 - For live demonstration of work flow "https://drive.google.com/file/d/1R3cBxbJZEPBDzM2EvAt8E5OMMDTYSJQj/view?usp=sharing"
 
