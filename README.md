@@ -80,3 +80,5 @@ Please make sure to update tests as appropriate.
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Project Status
+- Due to some issues with my kali virtual machine, I was not able to work in a separate virtual environment. This results in all pip packages of mine machine is present in requirements.txt please ignore others.
+- Checkout function can be modified more like the guest should get suggested name and number so he can choose instead of submitting the form. It can't be delivered due to the end semester examination.
