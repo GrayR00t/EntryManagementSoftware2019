@@ -80,10 +80,10 @@ def sendmail(message,sender,receiver,password):
 ## Credits
 - Google Search for finding needful blog and resources for reference.
 - smtplib and twilio for sending mail and messenging.
-- [Asciinema](https://asciinema.org/docs/getting-started) used in making working visual and [make a README](https://www.makeareadme.com/) for such nice explanation in making README file.
+- [SimpleScreenRecorder](https://www.maartenbaert.be/simplescreenrecorder/) used in making working visual and [make a README](https://www.makeareadme.com/) for such nice explanation in making README file.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT Lincense](https://choosealicense.com/licenses/mit/)
 
 ## Project Status
 - Due to some issues with my kali virtual machine, I was not able to work in a separate virtual environment. This results in all pip packages of mine machine is present in requirements.txt please ignore others.
