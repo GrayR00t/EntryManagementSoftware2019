@@ -1,5 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging,request, session
-from flask_mysqldb import MySQL
+#from flask_mysqldb import MySQL
+from flaskext.mysql import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators,DateTimeField,IntegerField
 from twilio.rest import Client
 from functools import wraps
