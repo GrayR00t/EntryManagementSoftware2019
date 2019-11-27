@@ -19,7 +19,7 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # init MYSQL
 mysql = MySQL(app)
 
-
+#function to send mail to host and guest
 def sendmail(message,sender,receiver,password):
     s = smtplib.SMTP('smtp.gmail.com', 587)
     s.starttls()
@@ -29,7 +29,7 @@ def sendmail(message,sender,receiver,password):
     s.quit()
     #print("Sent")
 
-
+#function to send message to host and guest
 def sendmsg(message,receiver):
     account_sid = 'AC###########################'
     auth_token = '##############################'
@@ -41,15 +41,11 @@ def sendmsg(message,receiver):
                               to=receiver
                           ) 
 
-
-msg_guest =""
-num_guest =""
-email_guest =""
-
 @app.route('/')
 
 def home():
 	return render_template('home.html')
+
 
 #Register form class
 
@@ -67,9 +63,11 @@ class RegisterForm(Form):
 
 @app.route('/register', methods=['GET', 'POST'])
 
+
 def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
+        #get form fields
         guestname  = form.guestname.data
         guestphone = form.guestphone.data
         guestemail = form.guestemail.data
@@ -77,6 +75,7 @@ def register():
         hostphone  = form.hostphone.data
         hostemail  = form.hostemail.data
 
+        # check to make sure time in particular format
         if(form.checkin.data[2]==':' and (form.checkin.data[6:]=='AM' or form.checkin.data[6:]=='PM')):
             checkin = form.checkin.data
         else:
@@ -92,13 +91,12 @@ def register():
         session['hostname'] = hostname
         session['checkin']  = checkin
         visitedaddress = 'ABCD'
+
+        #visitor details to be sent to host
         msg_host = 'Visitor Details' + '\n'+'Name - '+guestname+'\n' + 'Email - ' +guestemail + '\n' + 'Phone - ' + guestphone + '\n' + 'Checkin Time - ' + checkin + '\n' + 'Checkout Time - ' + checkout 
-        #session['msg_guest'] = 'Meeting Details' + '\n' + 'Name - '+ guestname  +'\n' + 'Email - ' + guestemail + '\n' + 'Phone - ' + guestphone + '\n' + 'Check in Date and Time - ' + checkin +'\n'+'checkout Date and Time - ' + checkout +'\n' + 'Host Name - ' + hostname +'\n' + 'Address Visited - ' + visitedaddress
-        
-        # Create cursor
         db = mysql.connection.cursor()
 
-        # Execute query
+        # Execute query to save data to database
         db.execute("INSERT INTO visitor2(guestname,guestemail,guestphone,hostname,hostemail,hostphone,checkin,checkout,visitedaddress) VALUES(%s, %s, %s, %s, %s, %s,%s, %s, %s)",(guestname,guestemail,guestphone,hostname,hostemail,hostphone,checkin,checkout,visitedaddress))
 
         # Commit to DB
@@ -106,8 +104,12 @@ def register():
 
         # Close connection
         db.close()
+        #sending message to host
         sendmsg(msg_host, '+91'+ hostphone)
+
+        #sending mail to host
         sendmail(msg_host, 'neerajtesting1234@gmail.com', hostemail, '#####')
+        
         flash('Registration Succesful! Have a Good Day')
 
         return redirect(url_for('home'))
@@ -142,11 +144,18 @@ def checkout():
         result1 = cur.execute("SELECT * FROM visitor2 WHERE guestemail = %s", [guestemail])
 
         if result > 0 and result1 > 0:
-            #flash(session['msg_guest'])
+            # Execute to query to update checkout time 
             cur.execute("UPDATE visitor2 SET checkout = checkout WHERE guestemail = guestemail")
-            session['msg_guest'] = 'Meeting Details' + '\n' + 'Name - '+ session['guestname']  +'\n' + 'Email - ' + session['guestemail'] + '\n' + 'Phone - ' + session['guestphone'] + '\n' + 'Check Time - ' + session['checkin'] +'\n'+'checkout Time - ' + checkout +'\n' + 'Host Name - ' + session['hostname'] +'\n' + 'Address Visited - ' + visitedaddress            
+
+            # message body to be sent to guest
+            session['msg_guest'] = 'Meeting Details' + '\n' + 'Name - '+ session['guestname']  +'\n' + 'Email - ' + session['guestemail'] + '\n' + 'Phone - ' + session['guestphone'] + '\n' + 'Check Time - ' + session['checkin'] +'\n'+'checkout Time - ' + checkout +'\n' + 'Host Name - ' + session['hostname'] +'\n' + 'Address Visited - ' + visitedaddress 
+
+            #sending message to guest          
             sendmsg(session['msg_guest'], '+91'+ session['guestphone'])
+
+            #sending mail to guest
             sendmail(session['msg_guest'], 'neerajtesting1234@gmail.com' ,session['guestemail'], '########' )
+
             flash('Succesfully Checked Out')
             cur.close()
             return render_template('home.html')

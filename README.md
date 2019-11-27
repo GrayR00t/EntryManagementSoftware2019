@@ -32,13 +32,37 @@ mysql = MySQL(app)
 # Create cursor
 db = mysql.connection.cursor()
 ```
+### Messeging service setup
+Regestred on Twilio site and get number, account_sid and auth_token to use the messeging service.
 
 ```python
-import foobar
+#function to send message to host and guest
+def sendmsg(message,receiver):
+    account_sid = 'AC###########################'
+    auth_token = '##############################'
+    client = Client(account_sid, auth_token)
 
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+    message = client.messages.create(
+                              body=message,
+                              from_='+12017345784',
+                              to=receiver
+                          ) 
+```
+### Mail service setup
+
+To set up a Gmail address for testing your code, do the following:
+- Create a new Google account.
+- Turn Allow less secure apps to ON. Be aware that this makes it easier for others to gain access to your account.
+
+```python
+# function to send email to host and guest
+def sendmail(message,sender,receiver,password):
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    s.login(sender, password)
+    #s.login(os.environ.get("id"), os.environ.get("pass"))
+    s.sendmail(sender, receiver, message)
+    s.quit()
 ```
 
 ## Contributing
