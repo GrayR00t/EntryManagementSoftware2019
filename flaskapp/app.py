@@ -7,7 +7,6 @@ import smtplib
 
 
 mysql = MySQL()
-
 app = Flask(__name__)
 
 # Config MySQL
@@ -16,6 +15,7 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = '123456'
 app.config['MYSQL_DB'] = 'myflaskapp'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
 # init MYSQL
 mysql = MySQL(app)
 
@@ -80,10 +80,13 @@ def register():
             checkin = form.checkin.data
         else:
             flash('Time should be in HH:MM_AM')
+            render_template('register.html', form=form)
         if(form.checkout.data[2]==':' and (form.checkout.data[6:]=='AM' or form.checkout.data[6:]=='PM')):
             checkout = form.checkout.data
         else:
-            flash('Time should be in HH:MM_AM')           
+            flash('Time should be in HH:MM_AM')
+            render_template('register.html', form=form)
+
 
         session['guestphone'] = guestphone
         session['guestemail']=guestemail
@@ -177,5 +180,6 @@ def checkout():
 
 
 if __name__ == '__main__':
+    #environment variables are more secure but for the easy testing code is written in this way
     app.secret_key='secret123'
     app.run(debug=True)

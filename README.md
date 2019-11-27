@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 ### Database server setup 
 
-Create table in your database name visitor2
+Create table in your database name visitor2 and make sure mysql server should be running in behind
 ```bash
 > CREATE TABLE visitor2(id INT(11) AUTO_INCREMENT PRIMARY KEY, guestname VARCHAR(100), guestemail VARCHAR(100),guestphone VARCHAR(10), hostname VARCHAR(100), hostemail VARCHAR(100) , hostphone VARCHAR(10), checkin VARCHAR(100), checkout VARCHAR(100), visitedaddress VARCHAR(300) , register_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
 ```
@@ -64,6 +64,11 @@ def sendmail(message,sender,receiver,password):
     s.sendmail(sender, receiver, message)
     s.quit()
 ```
+## Running App
+First navigate to location folder then write in the terminal or cmd and make sure mysql server is running in behind.
+```bash
+root@kali:~/Documents/EntryManagementProject2019/flaskapp# python3 app.py
+```
 
 ## Demo and Visuals
 - Home page of app
@@ -74,6 +79,13 @@ def sendmail(message,sender,receiver,password):
 
 - Checkout page of app
 ![Checkout Page](/screenshots/CheckoutPage.png)
+
+- Visitor Details screenshot
+![](/screenshots/VisitoDetails.jpeg)
+
+- Host Details screenshot
+![](/screenshots/VisitoDetails.jpeg)
+
 - For live demonstration of work flow "https://drive.google.com/file/d/1R3cBxbJZEPBDzM2EvAt8E5OMMDTYSJQj/view?usp=sharing"
 
 

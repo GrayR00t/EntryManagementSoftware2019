@@ -2,6 +2,7 @@ AdvancedHTTPServer==2.2.0
 ajpy==0.0.4
 alembic==1.0.11.dev0
 aniso8601==7.0.0
+asciinema==2.0.2
 asn1crypto==0.24.0
 basemap==1.2.0
 bcrypt==3.1.6
