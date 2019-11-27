@@ -1,8 +1,9 @@
-from flask import Flask, render_template, flash, redirect, url_for, session, logging,request
+from flask import Flask, render_template, flash, redirect, url_for, session, logging,request, session
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators,DateTimeField,IntegerField
 from twilio.rest import Client
-
+from functools import wraps
+import smtplib
 
 
 
@@ -31,59 +32,37 @@ def sendmail(message,sender,receiver,password):
 
 
 def sendmsg(message,receiver):
-    account_sid = 'AC6aa3d548629aca76096e36218a04072f'
-    auth_token = '76c6e298a83c3dee200bf5d7ec0cc125'
+    account_sid = 'AC###########################'
+    auth_token = '##############################'
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
                               body=message,
-                              from_='+14124447699',
+                              from_='+12017345784',
                               to=receiver
                           ) 
 
 
-
+msg_guest =""
+num_guest =""
+email_guest =""
 
 @app.route('/')
 
 def home():
 	return render_template('home.html')
 
-
-@app.route('/about')
-
-def about():
-	return render_template('about.html')
-
-
-
-
-
-
-@app.route('/checkout')
-
-def checkout():
-	return render_template('checkout.html')
-
-
-@app.route('/login')
-
-def login():
-	return render_template('login.html')
-
 #Register form class
 
-
-
 class RegisterForm(Form):
-    guestname = StringField('Guest Name', [validators.Length(min=1, max=100)])
-    guestphone = StringField('Guest Contact')
+    guestname  = StringField('Guest Name', [validators.Length(min=1, max=100)])
+    guestphone = StringField('Guest Contact',[validators.Length(10)])
     guestemail = StringField('Guest Email', [validators.Length(min=6, max=100)])
-    hostname = StringField('Host Name', [validators.Length(min=1, max=100)])
-    hostphone = StringField('Host Contact')
-    hostemail = StringField('Host Email', [validators.Length(min=6, max=100)])
-    checkin =  StringField('Check In Time')
-    checkout = StringField('Check Out Time')
+    hostname   = StringField('Host Name', [validators.Length(min=1, max=100)])
+    hostphone  = StringField('Host Contact', [validators.Length(10)])
+    hostemail  = StringField('Host Email', [validators.Length(min=6, max=100)])
+    checkin    = StringField('Check In Time', [validators.Length(8)])
+    checkout    = StringField('Check Out Time', [validators.Length(8)])
 
 
 
@@ -91,18 +70,32 @@ class RegisterForm(Form):
 
 def register():
     form = RegisterForm(request.form)
-    if request.method == 'POST':
-        guestname = form.guestname.data
-        guestphone=form.guestphone.data
+    if request.method == 'POST' and form.validate():
+        guestname  = form.guestname.data
+        guestphone = form.guestphone.data
         guestemail = form.guestemail.data
-        hostname = form.hostname.data
-        hostphone= form.hostphone.data
-        hostemail = form.hostemail.data
-        checkin = form.checkin.data
-        checkout = form.checkout.data
-        visitedaddress = "ABCD"
+        hostname   = form.hostname.data
+        hostphone  = form.hostphone.data
+        hostemail  = form.hostemail.data
 
+        if(form.checkin.data[2]==':' and (form.checkin.data[6:]=='AM' or form.checkin.data[6:]=='PM')):
+            checkin = form.checkin.data
+        else:
+            flash('Time should be in HH:MM_AM')
+        if(form.checkout.data[2]==':' and (form.checkout.data[6:]=='AM' or form.checkout.data[6:]=='PM')):
+            checkout = form.checkout.data
+        else:
+            flash('Time should be in HH:MM_AM')           
 
+        session['guestphone'] = guestphone
+        session['guestemail']=guestemail
+        session['guestname']= guestname
+        session['hostname'] = hostname
+        session['checkin']  = checkin
+        visitedaddress = 'ABCD'
+        msg_host = 'Visitor Details' + '\n'+'Name - '+guestname+'\n' + 'Email - ' +guestemail + '\n' + 'Phone - ' + guestphone + '\n' + 'Checkin Time - ' + checkin + '\n' + 'Checkout Time - ' + checkout 
+        #session['msg_guest'] = 'Meeting Details' + '\n' + 'Name - '+ guestname  +'\n' + 'Email - ' + guestemail + '\n' + 'Phone - ' + guestphone + '\n' + 'Check in Date and Time - ' + checkin +'\n'+'checkout Date and Time - ' + checkout +'\n' + 'Host Name - ' + hostname +'\n' + 'Address Visited - ' + visitedaddress
+        
         # Create cursor
         db = mysql.connection.cursor()
 
@@ -114,14 +107,55 @@ def register():
 
         # Close connection
         db.close()
-        sendmsg('neeraj', '+918004789080')
+        sendmsg(msg_host, '+91'+ hostphone)
+        sendmail(msg_host, 'neerajtesting1234@gmail.com', hostemail, '#####')
         flash('Registration Succesful! Have a Good Day')
 
         return redirect(url_for('home'))
     return render_template('register.html', form=form)
 
 
+@app.route('/about')
 
+def about():
+    return render_template('about.html')
+
+
+
+@app.route('/checkout' , methods = ['GET', 'POST'])
+def checkout():
+    if request.method == 'POST':
+        # Get Form Fields
+        guestphone = request.form['guestphone']
+        guestemail = request.form['guestemail']
+        checkout1 = request.form['checkout']
+        visitedaddress = 'ABCD'
+        if(checkout1[2]==':' and (checkout1[6:]=='AM' or checkout1[6:]=='PM')):
+            checkout = checkout1
+        else:
+            flash('Time should be in this format HH:MM_AM')
+            return render_template('login.html')
+        # Create cursor
+        cur = mysql.connection.cursor()
+
+        # Get user by username
+        result = cur.execute("SELECT * FROM visitor2 WHERE guestphone = %s", [guestphone])
+        result1 = cur.execute("SELECT * FROM visitor2 WHERE guestemail = %s", [guestemail])
+
+        if result > 0 and result1 > 0:
+            #flash(session['msg_guest'])
+            cur.execute("UPDATE visitor2 SET checkout = checkout WHERE guestemail = guestemail")
+            session['msg_guest'] = 'Meeting Details' + '\n' + 'Name - '+ session['guestname']  +'\n' + 'Email - ' + session['guestemail'] + '\n' + 'Phone - ' + session['guestphone'] + '\n' + 'Check Time - ' + session['checkin'] +'\n'+'checkout Time - ' + checkout +'\n' + 'Host Name - ' + session['hostname'] +'\n' + 'Address Visited - ' + visitedaddress            
+            sendmsg(session['msg_guest'], '+91'+ session['guestphone'])
+            sendmail(session['msg_guest'], 'neerajtesting1234@gmail.com' ,session['guestemail'], '########' )
+            flash('Succesfully Checked Out')
+            cur.close()
+            return render_template('home.html')
+        else:
+            error = 'Username not found'
+            return render_template('login.html', error=error)
+
+    return render_template('login.html')
 
 
 
