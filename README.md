@@ -74,7 +74,7 @@ def sendmail(message,sender,receiver,password):
 
 - Checkout page of app
 ![Checkout Page](/screenshots/CheckoutPage.png)
-- For live demonstration of work flow please paste the link in browser "https://drive.google.com/file/d/1R3cBxbJZEPBDzM2EvAt8E5OMMDTYSJQj/view?usp=sharing"
+- For live demonstration of work flow "https://drive.google.com/file/d/1R3cBxbJZEPBDzM2EvAt8E5OMMDTYSJQj/view?usp=sharing"
 
 
 ## Credits
