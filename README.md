@@ -66,10 +66,10 @@ def sendmail(message,sender,receiver,password):
 ```
 
 ## Demo and Visuals
-- [Home Page](/screenshots/HomePage.png)
-- [Registration Page](/screenshots/RegistrationPage.png)
-- [Checkout Page](/screenshots/CheckoutPage.png)
-- [Live demonstration of work flow]()
+- ![Home Page](/screenshots/HomePage.png)
+- ![Registration Page](/screenshots/RegistrationPage.png)
+- ![Checkout Page](/screenshots/CheckoutPage.png)
+- ![Live demonstration of work flow]()
 
 
 ## Credits
