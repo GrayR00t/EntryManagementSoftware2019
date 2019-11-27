@@ -4,7 +4,7 @@ This application is built on the Python Flask framework to capture the visitor d
 
 ## Installation
 
-Use the requirements.txt to install dependencies.
+Navigate to flaskapp use the requirements.txt to install dependencies.
 
 ```bash
 pip install -r requirements.txt
@@ -72,14 +72,11 @@ Please make sure to update tests as appropriate.
 
 
 ## Credits
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
+- Google Search for finding needful blog and resources for reference.
+- smtplib and twilio for sending mail and messenging.
+- [Asciinema](https://asciinema.org/docs/getting-started) used in making working visual and [make a README](https://www.makeareadme.com/) for such nice explanation in making README file.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Project Status
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
