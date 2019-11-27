@@ -66,9 +66,14 @@ def sendmail(message,sender,receiver,password):
 ```
 
 ## Demo and Visuals
-- ![Home Page](/screenshots/HomePage.png)
-- ![Registration Page](/screenshots/RegistrationPage.png)
-- ![Checkout Page](/screenshots/CheckoutPage.png)
+- Home page of app
+![Home Page](/screenshots/HomePage.png)
+
+- Registration page of app
+![Registration Page](/screenshots/RegistrationPage.png)
+
+- Checkout page of app
+![Checkout Page](/screenshots/CheckoutPage.png)
 - ![Live demonstration of work flow]()
 
 
