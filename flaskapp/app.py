@@ -31,8 +31,8 @@ def sendmail(message,sender,receiver,password):
 
 #function to send message to host and guest
 def sendmsg(message,receiver):
-    account_sid = 'ACf7dcdcd943ecd00b35fb21ab135feb17'
-    auth_token = '3f0ac3542d6cfbba0d3ccbf84d345f61'
+    account_sid = 'ACf7#######################'
+    auth_token = '##########################'
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
@@ -108,7 +108,7 @@ def register():
         sendmsg(msg_host, '+91'+ hostphone)
 
         #sending mail to host
-        sendmail(msg_host, 'neerajtesting1234@gmail.com', hostemail, 'rc633725')
+        sendmail(msg_host, 'neerajtesting1234@gmail.com', hostemail, '################')
 
         flash('Registration Succesful! Have a Good Day')
 
@@ -154,7 +154,7 @@ def checkout():
             sendmsg(session['msg_guest'], '+91'+ session['guestphone'])
 
             #sending mail to guest
-            sendmail(session['msg_guest'], 'neerajtesting1234@gmail.com' ,session['guestemail'], 'rc633725' )
+            sendmail(session['msg_guest'], 'neerajtesting1234@gmail.com' ,session['guestemail'], '############' )
 
             flash('Succesfully Checked Out')
             cur.close()
