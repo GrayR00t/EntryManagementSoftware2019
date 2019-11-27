@@ -1,13 +1,12 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging,request, session
-#from flask_mysqldb import MySQL
-from flaskext.mysql import MySQL
+from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators,DateTimeField,IntegerField
 from twilio.rest import Client
 from functools import wraps
 import smtplib
 
 
-
+mysql = MySQL()
 
 app = Flask(__name__)
 
@@ -19,7 +18,6 @@ app.config['MYSQL_DB'] = 'myflaskapp'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # init MYSQL
 mysql = MySQL(app)
-
 
 
 def sendmail(message,sender,receiver,password):
